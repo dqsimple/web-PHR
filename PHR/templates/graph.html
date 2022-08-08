@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>Graph</title>
+        <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+        <!--
+        <script src="/PHR/js/echarts.js"></script>
+        xAxis: {
+                    type: 'time', category
+                    boundaryGap: false,
+                    data: time_data
+                    },
+        -->
+    </head>
+    <body>
+        <p>
+            <a href="/PHR/index/">Back</a>
+        </p>
+
+        <div id = "Graph" style="width: 1000px; height:400px;margin: auto;"></div>
+
+        <script type="text/javascript">
+            var legend_data = {{ legend_data | safe }}
+            var time_data = {{ time_data | safe}};
+            var heart_rate_data = {{ heart_rate_data | safe}};
+            var blood_pressure_up_data = {{ blood_pressure_up_data | safe}};
+            var blood_pressure_down_data = {{ blood_pressure_down_data | safe}};
+            var temperature_data = {{ temperature_data | safe}};
+            var weight_data = {{ weight_data | safe}};
+
+            var myChart = echarts.init(document.getElementById('Graph'));
+
+            var option = {
+                title:{
+                    text: 'Line Chart'
+                    },
+                tooltip:{
+                    trigger: 'axis'
+                    },
+                legend:{
+                    data:legend_data
+                    },
+                grid:{
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                    },
+                xAxis: {
+                    type: 'time',
+                    boundaryGap: false,
+
+                    },
+                yAxis:[{
+                    type: 'value'
+                    },{
+                    type: 'value'
+                    }],
+                series: [
+                    {
+                        name:legend_data[0],
+                        type:'line',
+                        color:'#d43f3a',
+                        data: heart_rate_data
+                    },
+                    {
+                        name:legend_data[1],
+                        type:'line',
+                        yAxisIndex: 1,
+                        color:'#00ff00',
+                        data: temperature_data
+                    },
+                    {
+                        name:legend_data[2],
+                        type:'line',
+                        yAxisIndex: 0,
+                        color:'#7a7a7a',
+                        data: blood_pressure_up_data
+                    },
+                    {
+                        name:legend_data[3],
+                        type:'line',
+                        color:'#ffff4d',
+                        data: blood_pressure_down_data
+                    },
+                    {
+                        name:legend_data[4],
+                        type:'line',
+                        color:'#0000ff',
+                        data: weight_data
+                    }
+                ]
+            };
+            myChart.setOption(option)
+        </script>
+
+
+
+
+    </body>
+</html>

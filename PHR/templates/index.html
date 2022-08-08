@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- 上述meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <!-- Bootstrap CSS -->
+        <!-- <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"> -->
+
+        <link href="{% static 'index/css/index.css' %}" rel="stylesheet"/>
+        <title>Index</title>
+    </head>
+    <body>
+        <h1 style="margin-top:5%">{{ request.session.user_id }}</h1>
+        <div class="container">
+            <form class="form-NameForm" action="." method="post" novalidate>
+                {% csrf_token %}
+
+                <!--{{ request.session.user_name }}
+                <div class="form-group">
+                    <div class="form-control"><span>Patient: </span></div>
+                </div>
+                -->
+
+
+
+                <div style="text-align:center">
+                    <table class="table" style="margin:0 auto">
+                        <tr class="row">
+                            <td width="15%"></td>
+                            <td style="text-align:left" width="50%"><span>Patient: </span></td>
+                            <td width="35%"></td>
+                        </tr>
+                        <tr class="row">
+                            <td width="15%"></td>
+                            <td style="text-align:left" width="50%"><span>Name:</span></td>
+                            <td style="text-align:left" width="35%">{{patient.name}}</td>
+                        </tr>
+                        <tr class="row">
+                            <td width="15%"></td>
+                            <td style="text-align:left" width="50%"><span>Gender:</span></td>
+                            <td style="text-align:left" width="35%">{{patient.sex}}</td>
+                        </tr>
+                        <tr class="row">
+                            <td width="15%"></td>
+                            <td style="text-align:left" width="50%"><span>Heart rate(bpm):</span></td>
+                            <td style="text-align:left" width="35%">{{patient.heart_rate}}</td>
+                        </tr>
+                        <tr class="row">
+                            <td width="15%"></td>
+                            <td style="text-align:left" width="50%"><span>Upper Blood pressure(mmHg):</span></td>
+                            <td style="text-align:left" width="35%">{{patient.blood_pressure_up}}</td>
+                        </tr>
+                        <tr class="row">
+                            <td width="15%"></td>
+                            <td style="text-align:left" width="50%"><span>lower Blood pressure(mmHg):</span></td>
+                            <td style="text-align:left" width="35%">{{patient.blood_pressure_down}}</td>
+                        </tr>
+                        <tr class="row">
+                            <td width="15%"></td>
+                            <td style="text-align:left" width="50%"><span>Temperature(℃):</span></td>
+                            <td style="text-align:left" width="35%">{{patient.temperature}}</td>
+                        </tr>
+                        <tr class="row">
+                            <td width="15%"></td>
+                            <td style="text-align:left" width="50%"><span>Weight(Kg):</span></td>
+                            <td style="text-align:left" width="35%">{{patient.weight}}</td>
+                        </tr>
+                        <tr class="row">
+                            <td width="15%"></td>
+                            <td style="text-align:left" width="50%"><span>Disease:</span></td>
+                            <td style="text-align:left" width="35%">{{patient.disease}}</td>
+                        </tr>
+                        <tr class="row">
+                            <td width="50%" text-align="left"><a href="/PHR/logout/">Logout</a></td>
+                            <td width="50%" text-align="left"><button type="submit" class="btn btn-primary float-center">Edit</button></td>
+                        </tr>
+                        <tr class="row">
+                            <td width="50%"><a href="/PHR/edit_Disease/">Change Disease Information</a></td>
+                            <td width="50%"><a href="/PHR/edit_Basic/">Change Basic Information</a></td>
+                        </tr>
+                        <tr class="row">
+                            <td width="50%"><a href="/PHR/graph/">Graph</a></td>
+                            <td width="50%"></td>
+                        </tr>
+                    </table>
+                </div>
+                <!--
+                <div class="form-group">
+                    <div class="col-md-4 text-right" style="float:left"><span>Temperature(℃):</span></div>
+                    <div class="col-md-8 text-left" style="float:left">{{patient.temperature}}</div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-4 text-right" style="float:left"><span>Weight(Kg):</span></div>
+                    <div class="col-md-8 text-left" style="float:left">{{patient.weight}}</div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-4 text-right" style="float:left"><span>Disease:</span></div>
+                    <div class="col-md-8 text-left" style="float:left">{{patient.disease}}</div>
+                </div>
+                -->
+                <!--
+                <div class="row">
+                    <div class="col-md-4 text-right"><span>Patient:</span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 text-right" style="float:left"><span>Name:</span></div>
+                    <div class="col-md-8 text-left" style="float:left">{{patient.name}}</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div  class="col-md-4 text-right" style="float:left"><span>Gender:</span></div>
+                    <div class="col-md-8 text-left" style="float:left">{{patient.sex}}</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-4 text-right" style="float:left"><span>Heart rate(bpm):</span></div>
+                    <div class="col-md-8 text-left" style="float:left">{{patient.heart_rate}}</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-4 text-right" style="float:left"><span>Blood pressure(mmHg):</span></div>
+                    <div class="col-md-8 text-left" style="float:left">{{patient.blood_pressure}}</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-4 text-right" style="float:left"><span>Temperature(℃):</span></div>
+                    <div class="col-md-8 text-left" style="float:left">{{patient.temperature}}</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-4 text-right" style="float:left"><span>Weight(Kg):</span></div>
+                    <div class="col-md-8 text-left" style="float:left">{{patient.weight}}</div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-4 text-right" style="float:left"><span>Disease:</span></div>
+                    <div class="col-md-8 text-left" style="float:left">{{patient.disease}}</div>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary float-right">Edit</button>
+                </div>
+                <p>
+                    <a href="/PHR/logout/">Logout</a>
+                </p>
+                <p>
+                    <a href="/PHR/graph/">Graph</a>
+                </p>
+                -->
+                <br>
+
+
+
+
+            </form>
+
+
+            </div>
+        </div>
+
+        <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+        <script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.js"></script>
+        <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+    </body>
+</html>

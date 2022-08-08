@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- 上述meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <!-- Bootstrap CSS -->
+        <!-- <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">-->
+
+        <link href="{% static 'phr_change/css/change.css' %}" rel="stylesheet"/>
+        <title>Change</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="col">
+                <form class="form-NameForm" action="." method="post" novalidate>
+                    {% csrf_token %}
+                    {% if message %}
+                        <div class="alert alert-warning">{{ message }}</div>
+                    {% endif %}
+                    <!--
+                    <div class="form-group">
+                        <div class="col-md-4 text-right" style="float:left"><span>Name:</span></div>
+                        <div class="col-md-8 text-left" style="float:left">{{patient.name}}</div>
+                    </div> -->
+                    <div style="text-align:center">
+                        <table class="table" style="margin:0 auto">
+                            {% if request.session.user_name %}
+                                <tr class="form-group">
+                                    <td><label>Name:</label></td>
+                                    <td class="form-control" style="border:0px">{{patient.name}}</td>
+                                </tr>
+                                <!--
+                                <tr class="form-group">
+                                    <label for="id_patient_name">Name:</label>
+                                    <input type="text" name="your_name" id="id_patient_name" class="form-control">
+                                </tr>
+                                -->
+
+                            {% endif %}
+                            <tr class="form-group">
+                                <td text-align="center">{{ BasicChange_form.your_name.label_tag }}</td>
+                                <td text-align="center">{{ BasicChange_form.your_name }}</td>
+
+                            </tr>
+                            <tr class="form-group">
+                                <td text-align="center">{{ BasicChange_form.your_gender.label_tag }}</td>
+                                <td text-align="center">{{ BasicChange_form.your_gender }}</td>
+
+                            </tr>
+
+                            <!--<br>
+                            <p>
+                                {{ phr_form.as_p }}
+                            </p>
+                            -->
+
+
+                            <tr>
+                                <td><a href="/PHR/index/">Back</a></td>
+                                <td style="margin-right"><button type="submit" class="btn btn-primary float-right">Submit</button></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!--
+                    {% if request.session.user_name %}
+                        <div class="form-group">
+                            <label>Name:</label>
+                            <div class="form-control">{{patient.name}}</div>
+                        </div>
+                    {% else %}
+                        <div class="form-group">
+                            <label for="id_patient_name">Name:</label>
+                            <input type="text" name="your_name" id="id_patient_name" class="form-control">
+                        </div>
+
+                    {% endif %}
+                    <div class="form-group">
+                        {{ phr_form.your_gender.label_tag }}
+                        {{ phr_form.your_gender }}
+                    </div>
+                    <div class="form-group">
+                        {{ phr_form.your_heart_rate.label_tag }}
+                        {{ phr_form.your_heart_rate }}
+                    </div>
+                    <div class="form-group">
+                        {{ phr_form.your_blood_pressure_up.label_tag }}
+                        {{ phr_form.your_blood_pressure_up }}
+                    </div>
+                    <div class="form-group">
+                        {{ phr_form.your_blood_pressure_down.label_tag }}
+                        {{ phr_form.your_blood_pressure_down }}
+                    </div>
+                    <div class="form-group">
+                        {{ phr_form.your_temperature.label_tag }}
+                        {{ phr_form.your_temperature }}
+                    </div>
+                    <div class="form-group">
+                        {{ phr_form.your_weight.label_tag }}
+                        {{ phr_form.your_weight }}
+                    </div>
+                    <div class="form-group">
+                        {{ phr_form.your_disease.label_tag }}
+                        {{ phr_form.your_disease }}
+                    </div>
+                    -->
+                    <!--<br>
+                    <p>
+                        {{ phr_form.as_p }}
+                    </p>
+                    -->
+
+                    <!--
+                    <div>
+                        <button type="submit" class="btn btn-primary float-right">Submit</button>
+                    </div>
+                    -->
+            </div>
+        </div>
+        <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+        <script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.js"></script>
+        <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+    </body>
+</html>
