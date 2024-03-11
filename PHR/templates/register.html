@@ -7,7 +7,15 @@
         <!-- 上述meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
         <!-- Bootstrap CSS -->
         <!--<link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"> -->
-        <link href="{% static 'login/css/login.css' %}" rel="stylesheet"/>
+        <link href="{% static 'login/css/login1.css' %}" rel="stylesheet"/>
+        <style type="text/css">
+            body {
+                background-color: #EDFFFF;
+            }
+            a, .page-change{
+                color: #0014B7;
+            }
+        </style>
         <title>Register</title>
     </head>
     <body>
@@ -20,42 +28,29 @@
                         {% endif %}
 
                         {% csrf_token %}
-                        <table class="table" style="margin:0 auto">
-                            <tr class="form-group">
-                                <td text-align="center">{{ register_form.username.label_tag }} </td>
-                                <td text-align="center">{{ register_form.username}}</td>
-                            </tr>
-                            <tr class="form-group">
-                                <td text-align="center">{{ register_form.password1.label_tag }}</td>
-                                <td text-align="center">{{ register_form.password1 }}</td>
-                            </tr>
-                            <tr class="form-group">
-                                <td text-align="center">{{ register_form.password2.label_tag }}</td>
-                                <td text-align="center">{{ register_form.password2 }}</td>
-                            </tr>
-                            <tr>
-                                <td><a href="/PHR/login/"  class="text-success" ><ins>Login</ins></a></td>
-                                <td><button type="submit" class="btn btn-primary float-right">Register</button></td>
-                            </tr>
-                        </table>
-                        <!--
-                      <div class="form-group">
-                          {{ register_form.username.label_tag }}
-                          {{ register_form.username}}
-                      </div>
-                      <div class="form-group">
-                          {{ register_form.password1.label_tag }}
-                          {{ register_form.password1 }}
-                      </div>
-                      <div class="form-group">
-                          {{ register_form.password2.label_tag }}
-                          {{ register_form.password2 }}
-                      </div>
-                      <div>
-                          <a href="/PHR/login/"  ><ins>Login</ins></a>
-                          <button type="submit" class="btn btn-primary float-right">Register</button>
-                      </div>
-                        -->
+                        <h3 class="text-center">Registration</h3>
+                        <div class="form-group"></div>
+                        <div class="form-group">
+                            {{ register_form.username }}
+                        </div>
+                        <div class="form-group">
+                            {{ register_form.phoneNumber }}
+                        </div>
+                        <div class="form-group">
+                            {{ register_form.NHINumber }}
+                        </div>
+                        <div class="form-group">
+                            {{ register_form.password1 }}
+                        </div>
+                        <div class="form-group">
+                            {{ register_form.password2 }}
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block" style="background-color: #6C74F7;">Register</button>
+                        </div>
+                        <div class="form-group">
+                            <a href="/PHR/login/"  class="page-change" style="float: right; text-decoration: None;">Already have an Account? Log In Here</a>
+                        </div>
 
                     </form>
                 </div>

@@ -1,170 +1,635 @@
 {% load static %}
+
 <!DOCTYPE html>
 
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+
         <!-- 上述meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
         <!-- Bootstrap CSS -->
         <!-- <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"> -->
 
         <link href="{% static 'index/css/index.css' %}" rel="stylesheet"/>
+        <style>
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #007bff;
+            }
+
+            li {
+                float: right;
+            }
+
+            li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+            li a:hover {
+                background-color: #111;
+            }
+
+            .card-text{
+                font-size: 12px;
+                text-align: left;
+                font-family: PingFangSC-medium;
+            }
+            .nav-tabs .nav-link{
+                border: 0px;
+            }
+            .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+                color:#1684DC;
+            }
+            .nav-link{
+                border-radius: 18px;
+                color: rgba(51, 51, 51, 1);
+                font-size: 12px;
+                text-align: center;
+                font-family: Arial;
+                border: 1px solid rgba(187, 187, 187, 1);
+                background-color:#FFF;
+            }
+            .button:focus {
+                outline: none;
+                box-shadow: none;
+            }
+            .mb-3, .my-3 {
+                margin-bottom: 0.5rem!important;
+            }
+            .ip{
+                text-align:center;
+                border-radius: 50%;
+                line-height: 20px;
+                background-color: rgba(254, 250, 131, 1);
+                color: rgba(16, 16, 16, 1);
+                font-size: 14px;
+                text-align: center;
+                font-family: Arial;
+                border: 1px solid rgba(187, 187, 187, 1);
+            }
+            .op{
+                text-align:center;
+                border-radius: 50%;
+                line-height: 20px;
+                background-color: rgba(184, 134, 248, 1);
+                color: rgba(16, 16, 16, 1);
+                font-size: 14px;
+                text-align: center;
+                font-family: Arial;
+                border: 1px solid rgba(187, 187, 187, 1);
+            }
+            .tab-content::-webkit-scrollbar {
+                display: none;
+            }
+            .table td, .table th {
+                padding: .45rem;
+            }
+            table tr td{
+                font-size:8px;
+            }
+            table  tr th{
+                font-size:8px;
+            }
+        </style>
         <title>Index</title>
     </head>
-    <body>
-        <h1 style="margin-top:5%">{{ request.session.user_id }}</h1>
-        <div class="container">
-            <form class="form-NameForm" action="." method="post" novalidate>
-                {% csrf_token %}
+    <body style="min-height:780px;overflow-x:hidden;">
 
-                <!--{{ request.session.user_name }}
-                <div class="form-group">
-                    <div class="form-control"><span>Patient: </span></div>
+        {% csrf_token %}
+        <div class="container" style="padding: 0.2rem;">
+
+            <div class="card" style="background-color: #4095E5;">
+                <div class="card-body" style="padding: 0.8rem;">
+                    <div class="row">
+                        <div class="col-4">
+                            <!--<img src="{% static 'p_1.JPG' %}" class="card-img" alt="Image" style="width: 7rem;">-->
+                            <img src="data:image/png;base64,{{ Photo }}" class="card-img" alt="Image" style="width: 7rem;">
+                        </div>
+                        <div class="col-7" style="padding: 0.5rem;max-width: 56%;">
+                            <div class="card-text">
+                                {{p1_Name}}
+                            </div>
+                            <div class="card-text">
+                                {{age}},{{p1.gender}},{{Height_Last}},{{Weight_Last}}
+                            </div>
+                            <div class="card-text">
+                                Birth Date: {{BirthDate}}
+                            </div>
+                            <div class="card-text">
+                                Phone: {{Phone}}
+                            </div>
+                            <div class="card-text">
+                                City: {{Address}}
+                            </div>
+                            <div class="card-text">
+                                Email: {{Email}}
+                            </div>
+                        </div>
+                        <div class="col-1" style="padding:0px;max-width: 11%;">
+                            <a href="/PHR/logout/" style="font-size:8px;-webkit-transform: scale(1);color: rgba(16, 16, 16, 1);">Logout</a>
+                        </div>
+                    </div>
                 </div>
-                -->
+            </div>
+        </div>
+        <div class="container" style="padding:0px">
+            <div class="card">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card-text" style="font-size: 18px;text-align: left;color: rgba(16, 16, 16, 1);font-family: PingFangSC-semiBold;">
+                            Last Daily DATA
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="background-color: rgba(233, 157, 66, 1);
+                            color: rgba(255, 255, 255, 1);font-size: 12px;text-align: left;box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.4);font-family: Arial;float:right;">
+                                Records
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/PHR/edit/" style="font-size: 12px;">New record</a>
+                                <a class="dropdown-item" href="/PHR/Height_Record/" style="font-size: 12px;">Height</a>
+                                <a class="dropdown-item" href="/PHR/Weight_Record/" style="font-size: 12px;">Weight</a>
+                                <a class="dropdown-item" href="/PHR/Temperature_Record/" style="font-size: 12px;">Temperature</a>
+                                <a class="dropdown-item" href="/PHR/Steps_Record/" style="font-size: 12px;">Steps</a>
+                                <a class="dropdown-item" href="/PHR/BMI_Record/" style="font-size: 12px;">BMI</a>
+                                <a class="dropdown-item" href="/PHR/BloodPressure_Record/" style="font-size: 12px;">Blood Pressure</a>
+                                <a class="dropdown-item" href="/PHR/Heart_Record/" style="font-size: 12px;">Heart Rate</a>
+                                <a class="dropdown-item" href="/PHR/Respiration_Record/" style="font-size: 12px;">Respiration</a>
+                                <a class="dropdown-item" href="" style="font-size: 12px;">Smoking</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
-
-                <div style="text-align:center">
-                    <table class="table" style="margin:0 auto">
-                        <tr class="row">
-                            <td width="15%"></td>
-                            <td style="text-align:left" width="50%"><span>Patient: </span></td>
-                            <td width="35%"></td>
-                        </tr>
-                        <tr class="row">
-                            <td width="15%"></td>
-                            <td style="text-align:left" width="50%"><span>Name:</span></td>
-                            <td style="text-align:left" width="35%">{{patient.name}}</td>
-                        </tr>
-                        <tr class="row">
-                            <td width="15%"></td>
-                            <td style="text-align:left" width="50%"><span>Gender:</span></td>
-                            <td style="text-align:left" width="35%">{{patient.sex}}</td>
-                        </tr>
-                        <tr class="row">
-                            <td width="15%"></td>
-                            <td style="text-align:left" width="50%"><span>Heart rate(bpm):</span></td>
-                            <td style="text-align:left" width="35%">{{patient.heart_rate}}</td>
-                        </tr>
-                        <tr class="row">
-                            <td width="15%"></td>
-                            <td style="text-align:left" width="50%"><span>Upper Blood pressure(mmHg):</span></td>
-                            <td style="text-align:left" width="35%">{{patient.blood_pressure_up}}</td>
-                        </tr>
-                        <tr class="row">
-                            <td width="15%"></td>
-                            <td style="text-align:left" width="50%"><span>lower Blood pressure(mmHg):</span></td>
-                            <td style="text-align:left" width="35%">{{patient.blood_pressure_down}}</td>
-                        </tr>
-                        <tr class="row">
-                            <td width="15%"></td>
-                            <td style="text-align:left" width="50%"><span>Temperature(℃):</span></td>
-                            <td style="text-align:left" width="35%">{{patient.temperature}}</td>
-                        </tr>
-                        <tr class="row">
-                            <td width="15%"></td>
-                            <td style="text-align:left" width="50%"><span>Weight(Kg):</span></td>
-                            <td style="text-align:left" width="35%">{{patient.weight}}</td>
-                        </tr>
-                        <tr class="row">
-                            <td width="15%"></td>
-                            <td style="text-align:left" width="50%"><span>Disease:</span></td>
-                            <td style="text-align:left" width="35%">{{patient.disease}}</td>
-                        </tr>
-                        <tr class="row">
-                            <td width="50%" text-align="left"><a href="/PHR/logout/">Logout</a></td>
-                            <td width="50%" text-align="left"><button type="submit" class="btn btn-primary float-center">Edit</button></td>
-                        </tr>
-                        <tr class="row">
-                            <td width="50%"><a href="/PHR/edit_Disease/">Change Disease Information</a></td>
-                            <td width="50%"><a href="/PHR/edit_Basic/">Change Basic Information</a></td>
-                        </tr>
-                        <tr class="row">
-                            <td width="50%"><a href="/PHR/graph/">Graph</a></td>
-                            <td width="50%"></td>
-                        </tr>
+                <div class="card-body" style="padding: 0.3rem;">
+                    <table class="table table-striped" style="line-height: 1px;font-size: 12px;text-align: center;font-family: Arial;">
+                        <thead style="background-color: rgba(22, 132, 252, 1);color: #101010;line-height: 1px;text-align: center;font-family: Arial;">
+                            <tr>
+                                <th scope="col">Type</th>
+                                <th scope="col">Data</th>
+                                <th scope="col">Trend</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Height</td>
+                                <td>{{Height_Last}}</td>
+                                <td>{{Height_Trend}}</td>
+                            </tr>
+                            <tr>
+                                <td>Weight</td>
+                                <td>{{Weight_Last}}</td>
+                                <td>{{Weight_Trend}}</td>
+                            </tr>
+                            <tr>
+                                <td>Temperature</td>
+                                <td>{{BodyTem_Last}}</td>
+                                <td>{{BodyTem_Trend}}</td>
+                            </tr>
+                            <tr>
+                                <td>Steps</td>
+                                <td>{{Steps_Last}}</td>
+                                <td>{{Steps_Trend}}</td>
+                            </tr>
+                            <tr>
+                                <td>BMI</td>
+                                <td>{{BMI_Last}}</td>
+                                <td>{{BMI_Trend}}</td>
+                            </tr>
+                            <tr>
+                                <td>Blood Pressure</td>
+                                <td>{{BP_Last}}</td>
+                                <td>{{BP_Trend}}</td>
+                            </tr>
+                            <tr>
+                                <td>Heart Rate</td>
+                                <td>{{HR_Last}}</td>
+                                <td>{{HR_Trend}}</td>
+                            </tr>
+                            <tr>
+                                <td>Respiration</td>
+                                <td>{{RR_Last}}</td>
+                                <td>{{RR_Trend}}</td>
+                            </tr>
+                            <tr>
+                                <td>Smoking</td>
+                                <td>{{Smoking_Last}}</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
-                <!--
-                <div class="form-group">
-                    <div class="col-md-4 text-right" style="float:left"><span>Temperature(℃):</span></div>
-                    <div class="col-md-8 text-left" style="float:left">{{patient.temperature}}</div>
+            </div>
+        </div>
+        <div class="container" style="padding: 0px;">
+            <div class="card">
+                <div class="card-text" style="font-size: 18px;text-align: left;color: rgba(16, 16, 16, 1);font-family: PingFangSC-semiBold;">
+                    Encounter History
                 </div>
+                <ul id="p-group" class="nav nav-pills mb-3" role="tablist" style="background-color:white;">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="all-tab" data-toggle="tab" data-target="#all" type="button" role="tab" aria-controls="all" aria-selected="true" style="width:90px;border-radius: 5px;font-size: 12px;text-align: center;font-family: Arial;border: 1px solid rgba(187, 187, 187, 1);line-height: 10px;">All</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="inpatient-tab" data-toggle="tab" data-target="#inpatient" type="button" role="tab" aria-controls="inpatient" aria-selected="false" style="width:90px;border-radius: 5px;font-size: 12px;text-align: center;font-family: Arial;border: 1px solid rgba(187, 187, 187, 1);line-height: 10px;">Inpatient</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="outpatient-tab" data-toggle="tab" data-target="#outpatient" type="button" role="tab" aria-controls="outpatient" aria-selected="false" style="width:90px;border-radius: 5px;font-size: 12px;text-align: center;font-family: Arial;border: 1px solid rgba(187, 187, 187, 1);line-height: 10px;">Outpatient</button>
+                    </li>
+                </ul>
+                <div class="tab-content" style="overflow-y: auto;height:175px;">
+                    <div class="tab-pane active" id="all" role="tabpanel" aria-labelledby="all-tab" style="">
+                        <!--<a href="">
+                            <div class="card" style="line-height: 17px;border-radius: 16px;background-color: rgba(84, 188, 189, 1);color: rgba(16, 16, 16, 1);font-size: 12px;text-align: center;box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.4);font-family: Arial;border: 1px solid rgba(255, 255, 255, 1);">
+                                <div class="card-body" style="padding: 0.8rem;padding-top: 0.2rem;padding-bottom: 0.1rem;">
+                                    <div class="row" style="border-bottom: 1px solid rgba(0,0,0,.125);">
+                                        <div class="col-1" style="padding:0px; margin-left:0%;">
+                                            <div class="ip" style="">
+                                                IP
+                                            </div>
+                                        </div>
+                                        <div class="col-4" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">Admission Time</div>
+                                        </div>
+                                        <div class="col-4" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">Discharge Time</div>
+                                        </div>
+                                        <div class="col-3" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">Clinical Department</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">
+                                                Primary Diagnosis:
+                                            </div>
+                                        </div>
+                                        <div class="col-9" style="border-radius: 13px;padding:0px; margin-left:-1%;border-bottom: 1px solid rgba(0,0,0,.125);background: white;">
+                                            <div class="card-text" style="text-align:center;">1.Chronic disease</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">
+                                                Additional Diagnosis:
+                                            </div>
+                                        </div>
+                                        <div class="col-9" style="border-radius: 13px;padding:0px; margin-left:-1%;background: white;">
+                                            <div class="card-text" style="text-align:center;">2.Heart disease; 3.Hypertension</div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                <div class="form-group">
-                    <div class="col-md-4 text-right" style="float:left"><span>Weight(Kg):</span></div>
-                    <div class="col-md-8 text-left" style="float:left">{{patient.weight}}</div>
-                </div>
+                            </div>
+                        </a>-->
+                        {% for En_id, k, t1, t2, department, p, a in En_All_DataList %}
+                        {% ifequal k "Inpatient" %}
+                        <a href="{% url 'PHR:Visit' En_id %}">
+                            <div class="card" style="line-height: 17px;border-radius: 16px;background-color: rgba(84, 188, 189, 1);color: rgba(16, 16, 16, 1);font-size: 12px;text-align: center;box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.4);font-family: Arial;border: 1px solid rgba(255, 255, 255, 1);">
+                                <div class="card-body" style="padding: 0.8rem;padding-top: 0.2rem;padding-bottom: 0.1rem;">
+                                    <div class="row" style="border-bottom: 1px solid rgba(0,0,0,.125);">
+                                        <div class="col-1" style="padding:0px; margin-left:0%;">
+                                            <div class="ip" style="">
+                                                IP
+                                            </div>
+                                        </div>
+                                        <div class="col-4" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">{{t1}}</div>
+                                        </div>
+                                        <div class="col-4" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">{{t2}}</div>
+                                        </div>
+                                        <div class="col-3" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">{{department}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">
+                                                Primary Diagnosis:
+                                            </div>
+                                        </div>
+                                        <div class="col-9" style="border-radius: 13px;padding:0px; margin-left:-1%;border-bottom: 1px solid rgba(0,0,0,.125);background: white;">
+                                            <div class="card-text" style="text-align:center;">{{p}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">
+                                                Additional Diagnosis:
+                                            </div>
+                                        </div>
+                                        <div class="col-9" style="border-radius: 13px;padding:0px; margin-left:-1%;background: white;">
+                                            <div class="card-text" style="text-align:center;">{{a}}</div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                <div class="form-group">
-                    <div class="col-md-4 text-right" style="float:left"><span>Disease:</span></div>
-                    <div class="col-md-8 text-left" style="float:left">{{patient.disease}}</div>
-                </div>
-                -->
-                <!--
-                <div class="row">
-                    <div class="col-md-4 text-right"><span>Patient:</span></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 text-right" style="float:left"><span>Name:</span></div>
-                    <div class="col-md-8 text-left" style="float:left">{{patient.name}}</div>
-                </div>
-                <br>
-                <div class="row">
-                    <div  class="col-md-4 text-right" style="float:left"><span>Gender:</span></div>
-                    <div class="col-md-8 text-left" style="float:left">{{patient.sex}}</div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-md-4 text-right" style="float:left"><span>Heart rate(bpm):</span></div>
-                    <div class="col-md-8 text-left" style="float:left">{{patient.heart_rate}}</div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-md-4 text-right" style="float:left"><span>Blood pressure(mmHg):</span></div>
-                    <div class="col-md-8 text-left" style="float:left">{{patient.blood_pressure}}</div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-md-4 text-right" style="float:left"><span>Temperature(℃):</span></div>
-                    <div class="col-md-8 text-left" style="float:left">{{patient.temperature}}</div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-md-4 text-right" style="float:left"><span>Weight(Kg):</span></div>
-                    <div class="col-md-8 text-left" style="float:left">{{patient.weight}}</div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-md-4 text-right" style="float:left"><span>Disease:</span></div>
-                    <div class="col-md-8 text-left" style="float:left">{{patient.disease}}</div>
-                </div>
-                <div>
-                    <button type="submit" class="btn btn-primary float-right">Edit</button>
-                </div>
-                <p>
-                    <a href="/PHR/logout/">Logout</a>
-                </p>
-                <p>
-                    <a href="/PHR/graph/">Graph</a>
-                </p>
-                -->
-                <br>
+                            </div>
+                        </a>
+                        {% endifequal %}
+                        {% ifequal k "Outpatient" %}
+                        <a href="{% url 'PHR:Visit' En_id %}">
+                            <div class="card" style="line-height: 17px;border-radius: 16px;background-color: rgba(84, 188, 189, 1);color: rgba(16, 16, 16, 1);font-size: 12px;text-align: center;box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.4);font-family: Arial;border: 1px solid rgba(255, 255, 255, 1);">
+                                <div class="card-body" style="padding: 0.8rem;padding-top: 0.2rem;padding-bottom: 0.1rem;">
+                                    <div class="row" style="border-bottom: 1px solid rgba(0,0,0,.125);">
+                                        <div class="col-1" style="padding:0px; margin-left:0%;">
+                                            <div class="op" style="">
+                                                OP
+                                            </div>
+                                        </div>
+                                        <div class="col-4" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">{{t1}}</div>
+                                        </div>
+                                        <div class="col-4" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">{{t2}}</div>
+                                        </div>
+                                        <div class="col-3" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">{{department}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">
+                                                Primary Diagnosis:
+                                            </div>
+                                        </div>
+                                        <div class="col-9" style="border-radius: 13px;padding:0px; margin-left:-1%;border-bottom: 1px solid rgba(0,0,0,.125);background: white;">
+                                            <div class="card-text" style="text-align:center;">{{p}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">
+                                                Additional Diagnosis:
+                                            </div>
+                                        </div>
+                                        <div class="col-9" style="border-radius: 13px;padding:0px; margin-left:-1%;background: white;">
+                                            <div class="card-text" style="text-align:center;">{{a}}</div>
+                                        </div>
+                                    </div>
+                                </div>
 
+                            </div>
+                        </a>
+                        {% endifequal %}
 
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane" id="inpatient" role="tabpanel" aria-labelledby="inpatient-tab">
+                        {% for En_id, k, t1, t2, department, p, a in En_All_DataList %}
+                        {% ifequal k "Inpatient" %}
+                        <a href="{% url 'PHR:Visit' En_id %}">
+                            <div class="card" style="line-height: 17px;border-radius: 16px;background-color: rgba(84, 188, 189, 1);color: rgba(16, 16, 16, 1);font-size: 12px;text-align: center;box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.4);font-family: Arial;border: 1px solid rgba(255, 255, 255, 1);">
+                                <div class="card-body" style="padding: 0.8rem;padding-top: 0.2rem;padding-bottom: 0.1rem;">
+                                    <div class="row" style="border-bottom: 1px solid rgba(0,0,0,.125);">
+                                        <div class="col-1" style="padding:0px; margin-left:0%;">
+                                            <div class="ip" style="">
+                                                IP
+                                            </div>
+                                        </div>
+                                        <div class="col-4" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">{{t1}}</div>
+                                        </div>
+                                        <div class="col-4" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">{{t2}}</div>
+                                        </div>
+                                        <div class="col-3" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">{{department}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">
+                                                Primary Diagnosis:
+                                            </div>
+                                        </div>
+                                        <div class="col-9" style="border-radius: 13px;padding:0px; margin-left:-1%;border-bottom: 1px solid rgba(0,0,0,.125);background: white;">
+                                            <div class="card-text" style="text-align:center;">{{p}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">
+                                                Additional Diagnosis:
+                                            </div>
+                                        </div>
+                                        <div class="col-9" style="border-radius: 13px;padding:0px; margin-left:-1%;background: white;">
+                                            <div class="card-text" style="text-align:center;">{{a}}</div>
+                                        </div>
+                                    </div>
+                                </div>
 
+                            </div>
+                        </a>
+                        {% endifequal %}
 
-            </form>
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane" id="outpatient" role="tabpanel" aria-labelledby="outpatient-tab">
+                        {% for En_id, k, t1, t2, department, p, a in En_All_DataList %}
 
+                        {% ifequal k "Outpatient" %}
+                        <a href="{% url 'PHR:Visit' En_id %}">
+                            <div class="card" style="line-height: 17px;border-radius: 16px;background-color: rgba(84, 188, 189, 1);color: rgba(16, 16, 16, 1);font-size: 12px;text-align: center;box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.4);font-family: Arial;border: 1px solid rgba(255, 255, 255, 1);">
+                                <div class="card-body" style="padding: 0.8rem;padding-top: 0.2rem;padding-bottom: 0.1rem;">
+                                    <div class="row" style="border-bottom: 1px solid rgba(0,0,0,.125);">
+                                        <div class="col-1" style="padding:0px; margin-left:0%;">
+                                            <div class="op" style="">
+                                                OP
+                                            </div>
+                                        </div>
+                                        <div class="col-4" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">{{t1}}</div>
+                                        </div>
+                                        <div class="col-4" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">{{t2}}</div>
+                                        </div>
+                                        <div class="col-3" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">{{department}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">
+                                                Primary Diagnosis:
+                                            </div>
+                                        </div>
+                                        <div class="col-9" style="border-radius: 13px;padding:0px; margin-left:-1%;border-bottom: 1px solid rgba(0,0,0,.125);background: white;">
+                                            <div class="card-text" style="text-align:center;">{{p}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3" style="padding:0px; margin-left:0%;">
+                                            <div class="card-text" style="text-align:center;">
+                                                Additional Diagnosis:
+                                            </div>
+                                        </div>
+                                        <div class="col-9" style="border-radius: 13px;padding:0px; margin-left:-1%;background: white;">
+                                            <div class="card-text" style="text-align:center;">{{a}}</div>
+                                        </div>
+                                    </div>
+                                </div>
 
+                            </div>
+                        </a>
+                        {% endifequal %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!--<div class="container">
+            <div class="card" style="margin-bottom:2%">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="card-text" style="color: rgba(51, 51, 51, 1);font-size: 18px;text-align: left;">Daily Data</div>
+                    </div>
+                    <div class="col-2">
+                        &nbsp;
+                    </div>
+                    <div class="col-6" style="-webkit-transform: scale(0.8);">
+                        <a href="/PHR/edit/" class="card-text" style="color: rgba(55, 11, 230, 1);font-size: 14px;text-align: left;font-family: PingFangSC-regular;">Record new daily data</a>
+                    </div>
+                </div>
+                <div class="row" style="width: 100%;height:80%;padding:2%;">
+                    <div id = "Graph" style="width: 100%; height:165px;margin: auto;bottom:8px"></div>
+                </div>
+            </div>
+        </div>-->
+        <div class="container" style="padding: 0px;margin-top: 1rem;">
+            <div class="card-text" style="font-size: 18px;text-align: left;color: rgba(16, 16, 16, 1);font-family: PingFangSC-semiBold;">
+                Comprehensive Records
+            </div>
+            <div class="card" style="background-color: rgba(239, 239, 239, 1);text-align: center;box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);">
+                <div class="row" style="text-align:center;padding:3px;">
+                    <div class="col-4">
+                        <a class="btn btn-primary" href="/PHR/Height_Record/"  style="border-radius: 6px;background-color: rgba(254, 67, 101, 1);
+                            color: rgba(255, 255, 255, 1);font-size: 16px;text-align: center;box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
+                            font-family: Arial;border: 1px solid rgba(187, 187, 187, 1);width: 100%;line-height: 24px;">
+                            Vital Signs
+                        </a>
+                    </div>
+                    <div class="col-4">
+                        <a class="btn btn-primary" href="/PHR/Imaging_History/"  style="border-radius: 6px;background-color: rgba(147, 210, 243, 1);
+                            color: rgba(255, 255, 255, 1);font-size: 16px;text-align: center;box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
+                            font-family: Arial;border: 1px solid rgba(187, 187, 187, 1);width: 100%;line-height: 24px;">
+                            Imaging
+                        </a>
+                    </div>
+                    <div class="col-4">
+                        <a class="btn btn-primary" href="/PHR/Laboratory_History/"  style="border-radius: 6px;background-color: rgba(119, 52, 96, 1);
+                            color: rgba(255, 255, 255, 1);font-size: 16px;text-align: center;box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
+                            font-family: Arial;border: 1px solid rgba(187, 187, 187, 1);width: 100%;line-height: 24px;">
+                            Laboratory
+                        </a>
+                    </div>
+                </div>
+                <div class="row" style="text-align:center;padding:3px;">
+                    <div class="col-4">
+                        <a class="btn btn-primary" href="/PHR/Medications_History/"  style="border-radius: 6px;background-color: rgba(172, 81, 24, 1);
+                            color: rgba(255, 255, 255, 1);font-size: 14px;text-align: center;box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
+                            font-family: Arial;border: 1px solid rgba(187, 187, 187, 1);width: 100%;line-height: 24px;">
+                            Medications
+                        </a>
+                    </div>
+                    <div class="col-4">
+                        <a class="btn btn-primary" href="/PHR/Allergies_History/"  style="border-radius: 6px;background-color: rgba(249, 205, 173, 1);
+                            color: rgba(255, 255, 255, 1);font-size: 16px;text-align: center;box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
+                            font-family: Arial;border: 1px solid rgba(187, 187, 187, 1);width: 100%;line-height: 24px;">
+                            Allergies
+                        </a>
+                    </div>
+                    <div class="col-4">
+                        <a class="btn btn-primary" href="/PHR/Diagnosis_History/"  style="border-radius: 6px;background-color: rgba(131, 175, 155, 1);
+                            color: rgba(255, 255, 255, 1);font-size: 16px;text-align: center;box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
+                            font-family: Arial;border: 1px solid rgba(187, 187, 187, 1);width: 100%;line-height: 24px;">
+                            Diagnosis
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 
+        </div>
+
+        <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
         <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
         <script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.js"></script>
         <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+        <script type="text/javascript">
+            var legend_data = {{ legend_data | safe }};
+
+            var Height_DataList1 = {{ Height_DataList1 | safe}};
+            var Weight_DataList1 = {{ Weight_DataList1 | safe}};
+            var myChart = echarts.init(document.getElementById('Graph'));
+
+            var option = {
+
+                tooltip:{
+                    trigger: 'axis'
+                    },
+                legend:{
+                    data:legend_data,
+                    textStyle: {
+                        fontSize: 10,
+                        },
+                    itemHeight: 10,
+                    top:"10%"
+                    },
+                grid:{
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                    },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: ['10%','20%']
+                    },
+                yAxis:[{
+                    type: 'value'
+                    },{
+                    type: 'value'
+                    }],
+                series: [
+                    {
+                        name:legend_data[0],
+                        type:'line',
+                        color:'#d43f3a',
+                        data: Height_DataList1
+                    },
+                    {
+                        name:legend_data[1],
+                        type:'line',
+                        color:'#0000ff',
+                        data: Weight_DataList1
+                    }
+                ],
+                dataZoom: [
+                    {
+                        id: 'dataZoomX',
+                        type: 'inside',
+                        xAxisIndex: [0],
+                        minSpan: 10
+                    }
+                ]
+            };
+            myChart.setOption(option)
+        </script>
+
     </body>
 </html>
